@@ -48,7 +48,7 @@ end
 allowed = load_allowed(allowed_file).map(&:downcase).to_set
 
 all_keys = locale_files.flat_map do |file|
-  data = YAML.load_file(file)
+  data = YAML.safe_load_file(file, permitted_classes: [], aliases: true)
   data.each_value.flat_map { |v| v.is_a?(Hash) ? extract_keys(v) : [] }
 end.uniq
 

@@ -50,7 +50,7 @@ def check_locale(file, locale_code, locale_to_dict, allowed_dir)
     return []
   end
 
-  data = YAML.load_file(file)
+  data = YAML.safe_load_file(file, permitted_classes: [], aliases: true)
   entries = extract_values(data[locale_code] || {})
   return [] if entries.empty?
 
