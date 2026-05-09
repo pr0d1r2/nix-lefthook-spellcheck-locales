@@ -1,0 +1,9 @@
+---
+pre-push:
+  commands:
+    spellcheck-locales-keys:
+      glob: "config/locales/*.yml"
+      run: timeout ${LEFTHOOK_SPELLCHECK_LOCALES_TIMEOUT:-60} lefthook-spellcheck-locales-keys
+    spellcheck-locales-values:
+      glob: "config/locales/*.yml"
+      run: timeout ${LEFTHOOK_SPELLCHECK_LOCALES_TIMEOUT:-60} lefthook-spellcheck-locales-values
