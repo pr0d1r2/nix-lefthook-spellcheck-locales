@@ -5,7 +5,7 @@
 #         LEFTHOOK_SPELLCHECK_ALLOWED_KEYS_FILE (default: .hunspell_allowed_keys)
 #         LEFTHOOK_SPELLCHECK_KEYS_DICT (default: en_US)
 # Usage: lefthook-spellcheck-locales-keys [ignored]
-# NOTE: sourced by writeShellApplication — no shebang or set needed.
+# NOTE: sourced by writeShellApplication - no shebang or set needed.
 
 SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 exec ruby "$SCRIPT_DIR/../lib/lefthook-spellcheck-locales-keys.rb" "$@"

@@ -8,8 +8,8 @@ Lefthook-compatible locale spellchecker (keys + values), packaged as a Nix flake
 
 Contains two commands:
 
-- `lefthook-spellcheck-locales-keys` — checks YAML locale key names for English spelling errors
-- `lefthook-spellcheck-locales-values` — checks YAML locale values for spelling errors in their respective language
+- `lefthook-spellcheck-locales-keys` - checks YAML locale key names for English spelling errors
+- `lefthook-spellcheck-locales-values` - checks YAML locale values for spelling errors in their respective language
 
 Both use [hunspell](https://hunspell.github.io/) for spell checking.
 
@@ -17,7 +17,7 @@ Both use [hunspell](https://hunspell.github.io/) for spell checking.
 
 ### Option A: Lefthook remote (recommended)
 
-Add to your `lefthook.yml` — no flake input needed, just the wrapper binaries in your devShell:
+Add to your `lefthook.yml` - no flake input needed, just the wrapper binaries in your devShell:
 
 ```yaml
 remotes:
@@ -63,7 +63,7 @@ Create `.hunspell_allowed_keys` for key false positives and `.hunspell_allowed_v
 
 ## Development
 
-The repo includes an `.envrc` for [direnv](https://direnv.net/) — entering the directory automatically loads the devShell with all dependencies:
+The repo includes an `.envrc` for [direnv](https://direnv.net/) - entering the directory automatically loads the devShell with all dependencies:
 
 ```bash
 cd nix-lefthook-spellcheck-locales  # direnv loads the flake
