@@ -12,6 +12,10 @@
       url = "github:pr0d1r2/nix-dev-shell-agentic";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-lefthook-unicode-lint = {
+      url = "github:pr0d1r2/nix-lefthook-unicode-lint";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -32,39 +36,45 @@
         f: nixpkgs.lib.genAttrs supportedSystems (system: f nixpkgs.legacyPackages.${system});
     in
     {
-      packages = forAllSystems (pkgs: let
-        rubyEnv = [
-          pkgs.ruby
-          pkgs.hunspell
-          pkgs.hunspellDicts.en_US
-        ];
-        keysScript = pkgs.writeText "lefthook-spellcheck-locales-keys.rb"
-          (builtins.readFile ./lefthook-spellcheck-locales-keys.rb);
-        valuesScript = pkgs.writeText "lefthook-spellcheck-locales-values.rb"
-          (builtins.readFile ./lefthook-spellcheck-locales-values.rb);
-      in {
-        lefthook-spellcheck-locales-keys = pkgs.writeShellApplication {
-          name = "lefthook-spellcheck-locales-keys";
-          runtimeInputs = rubyEnv;
-          text = ''
-            exec ruby ${keysScript} "$@"
-          '';
-        };
-        lefthook-spellcheck-locales-values = pkgs.writeShellApplication {
-          name = "lefthook-spellcheck-locales-values";
-          runtimeInputs = rubyEnv;
-          text = ''
-            exec ruby ${valuesScript} "$@"
-          '';
-        };
-        default = pkgs.symlinkJoin {
-          name = "lefthook-spellcheck-locales";
-          paths = [
-            self.packages.${pkgs.stdenv.hostPlatform.system}.lefthook-spellcheck-locales-keys
-            self.packages.${pkgs.stdenv.hostPlatform.system}.lefthook-spellcheck-locales-values
+      packages = forAllSystems (
+        pkgs:
+        let
+          rubyEnv = [
+            pkgs.ruby
+            pkgs.hunspell
+            pkgs.hunspellDicts.en_US
           ];
-        };
-      });
+          keysScript = pkgs.writeText "lefthook-spellcheck-locales-keys.rb" (
+            builtins.readFile ./lefthook-spellcheck-locales-keys.rb
+          );
+          valuesScript = pkgs.writeText "lefthook-spellcheck-locales-values.rb" (
+            builtins.readFile ./lefthook-spellcheck-locales-values.rb
+          );
+        in
+        {
+          lefthook-spellcheck-locales-keys = pkgs.writeShellApplication {
+            name = "lefthook-spellcheck-locales-keys";
+            runtimeInputs = rubyEnv;
+            text = ''
+              exec ruby ${keysScript} "$@"
+            '';
+          };
+          lefthook-spellcheck-locales-values = pkgs.writeShellApplication {
+            name = "lefthook-spellcheck-locales-values";
+            runtimeInputs = rubyEnv;
+            text = ''
+              exec ruby ${valuesScript} "$@"
+            '';
+          };
+          default = pkgs.symlinkJoin {
+            name = "lefthook-spellcheck-locales";
+            paths = [
+              self.packages.${pkgs.stdenv.hostPlatform.system}.lefthook-spellcheck-locales-keys
+              self.packages.${pkgs.stdenv.hostPlatform.system}.lefthook-spellcheck-locales-values
+            ];
+          };
+        }
+      );
 
       devShells = forAllSystems (
         pkgs:
