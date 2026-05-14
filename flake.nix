@@ -84,6 +84,8 @@
             inherit pkgs inputs;
             ciPackages = [
               self.packages.${system}.default
+              pkgs.hunspell
+              pkgs.hunspellDicts.en_US
             ];
             shellHook = builtins.replaceStrings [ "@BATS_LIB_PATH@" ] [ "${shells.batsWithLibs}" ] (
               builtins.readFile ./dev.sh
