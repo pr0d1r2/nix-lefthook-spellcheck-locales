@@ -63,6 +63,7 @@
             name = "lefthook-spellcheck-locales-values";
             runtimeInputs = rubyEnv;
             text = ''
+              export DICPATH="${pkgs.hunspellDicts.en_US}/share/hunspell''${DICPATH:+:$DICPATH}"
               exec ruby ${valuesScript} "$@"
             '';
           };
@@ -87,9 +88,11 @@
               pkgs.hunspell
               pkgs.hunspellDicts.en_US
             ];
-            shellHook = builtins.replaceStrings [ "@BATS_LIB_PATH@" ] [ "${shells.batsWithLibs}" ] (
-              builtins.readFile ./dev.sh
-            );
+            shellHook =
+              builtins.replaceStrings
+                [ "@BATS_LIB_PATH@" "@DICPATH@" ]
+                [ "${shells.batsWithLibs}" "${pkgs.hunspellDicts.en_US}/share/hunspell" ]
+                (builtins.readFile ./dev.sh);
           };
         in
         shells
